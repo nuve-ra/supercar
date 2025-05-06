@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>My first three.js app</title>
+
+    <!-- UNPKG Importmap for Three.js -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <style>
+      body {
+        margin: 0;
+        background-color: lightblue;
+      }
+
+      h1 {
+        color: darkblue;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        margin: 0;
+      }
+
+      .customize-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: darkblue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        z-index: 1000;
+        transition: background-color 0.3s;
+      }
+
+      .customize-btn:hover {
+        background-color: #1a237e;
+      }
+
+      /* Control Panel Styles */
+      .control-panel {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        width: 250px;
+        display: none;
+      }
+
+      .control-group {
+        margin-bottom: 15px;
+      }
+
+      .control-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+      }
+
+
+      .control-group input[type="range"] {
+        width: 100%;
+      }
+
+
+      .control-value {
+        display: inline-block;
+        width: 40px;
+        text-align: right;
+        margin-left: 10px;
+      }
+
+
+      .color-picker {
+        width: 100%;
+        height: 30px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wheel Customization</h1>
+    <button id="customizeWheel" class="customize-btn">Customize Wheels</button>
+    
+    <div id="wheelControls" class="control-panel">
+      <h3 style="margin-top: 0; color: #1a237e;">Wheel Properties</h3>
+      
+      <div class="control-group">
+        <label for="wheelColor">Wheel Color:</label>
+        <input type="color" id="wheelColor" class="color-picker" value="#000000">
+      </div>
+      
+      <div class="control-group">
+        <label for="metallic">Metallic: <span id="metallicValue" class="control-value">0.5</span></label>
+        <input type="range" id="metallic" min="0" max="1" step="0.01" value="0.5">
+      </div>
+      
+      <div class="control-group">
+        <label for="roughness">Roughness: <span id="roughnessValue" class="control-value">0.5</span></label>
+        <input type="range" id="roughness" min="0" max="1" step="0.01" value="0.5">
+      </div>
+      
+      <div class="control-group">
+        <label for="sharpness">Sharpness: <span id="sharpnessValue" class="control-value">1.0</span></label>
+        <input type="range" id="sharpness" min="0.1" max="2" step="0.1" value="1.0">
+      </div>
+    </div>
+
+    <script type="module">
+      import * as THREE from 'three';
+      import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+      import { OrbitControls } from 'three/addons/controls/OrbitControls';
+
+      // OrbitControls removed completely
+
+      // Renderer
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+      document.body.appendChild(renderer.domElement);
+
+      // Scene and Camera
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(4, 5, 11);
+      camera.lookAt(0, 0, 0);
+
+      //controls
+      const controls = new OrbitControls(camera,renderer.domElement);
+      controls.enableDamping = true;
+      controls.enablePan=false;
+      controls.minDistance = 5;
+      controls.maxDistance = 20;
+      controls.minPolarAngle = 0.5;
+      controls.maxPolarAngle = 1.5;
+      controls.autoRotate = false;
+      controls.target = new THREE.Vector3(0,1,0);
+      controls.update();
+
+
+      // Ground
+      const groundGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
+      groundGeometry.rotateX(-Math.PI / 2);
+      const groundMaterial = new THREE.MeshStandardMaterial({
+        color: 0x555555,
+        side: THREE.DoubleSide,
+      });
+      const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+      groundMesh.castShadow = false;
+      groundMesh.receiveShadow = true;
+      scene.add(groundMesh);
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(5, 10, 5);
+      directionalLight.castShadow = true;
+      scene.add(directionalLight);
+
+      const pointLight = new THREE.PointLight(0xffffff, 1);
+      pointLight.position.set(0, 5, 0);
+      scene.add(pointLight);
+
+      const spotLight = new THREE.SpotLight(0xffffff, 1);
+      spotLight.position.set(15, 20, 10);
+      spotLight.castShadow = true;
+      scene.add(spotLight);
+
+      const targetObject = new THREE.Object3D();
+      targetObject.position.set(0, 0, 0);
+      scene.add(targetObject);
+      spotLight.target = targetObject;
+
+      // Global variable to store wheel mesh and material
+      let wheelMesh;
+      let wheelMaterial;
+
+      // Load Wheel Model
+      const loader = new GLTFLoader();
+      loader.load('models/wheel_model.glb', (gltf) => {
+        wheelMesh = gltf.scene;
+
+        wheelMesh.traverse((child) => {
+          if(child.isMesh){
+            child.castShadow = true;
+            child.receiveShadow = true;
+            // Store reference to the material
+            if (!wheelMaterial && child.material) {
+              wheelMaterial = child.material;
+              // Ensure it's a MeshStandardMaterial
+              if (!(wheelMaterial instanceof THREE.MeshStandardMaterial)) {
+                wheelMaterial = new THREE.MeshStandardMaterial({
+                  color: wheelMaterial.color || 0x333333,
+                  metalness: 0.5,
+                  roughness: 0.5
+                });
+                child.material = wheelMaterial;
+              }
+            }
+          }
+        });
+
+
+        wheelMesh.position.set(0, 2, 0);
+        wheelMesh.scale.set(5, 5, 5);
+        scene.add(wheelMesh);
+        console.log('Wheel model loaded:', wheelMesh);
+
+        // Initialize material properties from sliders
+        updateWheelMaterial();
+      }, undefined, (error) => {
+        console.error('Error loading wheel model:', error);
+        // Create a simple wheel as fallback
+        createFallbackWheel();
+      });
+
+
+      // Fallback wheel creation if model fails to load
+      function createFallbackWheel() {
+        const geometry = new THREE.TorusGeometry(1, 0.3, 16, 32);
+        wheelMaterial = new THREE.MeshStandardMaterial({
+          color: 0x333333,
+          metalness: 0.5,
+          roughness: 0.5
+        });
+        wheelMesh = new THREE.Mesh(geometry, wheelMaterial);
+        wheelMesh.position.set(0, 2, 0);
+        wheelMesh.scale.set(2, 2, 0.5);
+        wheelMesh.rotation.x = Math.PI / 2;
+        scene.add(wheelMesh);
+        console.log('Fallback wheel created');
+      }
+
+
+      // Update wheel material based on control values
+      function updateWheelMaterial() {
+        if (!wheelMaterial) return;
+        
+        wheelMaterial.color.setStyle(colorPicker.value);
+        wheelMaterial.metalness = parseFloat(metallicSlider.value);
+        wheelMaterial.roughness = parseFloat(roughnessSlider.value);
+        // Sharpness can be used to modify other material properties if needed
+        // For now, we'll just log it
+        console.log('Sharpness:', sharpnessSlider.value);
+      }
+
+      // Handle Window Resize
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // Wheel Customization Controls
+      const wheelControls = document.getElementById('wheelControls');
+      const colorPicker = document.getElementById('wheelColor');
+      const metallicSlider = document.getElementById('metallic');
+      const roughnessSlider = document.getElementById('roughness');
+      const sharpnessSlider = document.getElementById('sharpness');
+
+      // Toggle controls panel
+      document.getElementById('customizeWheel').addEventListener('click', () => {
+        wheelControls.style.display = wheelControls.style.display === 'block' ? 'none' : 'block';
+      });
+
+      // Update control value displays
+      function updateValueDisplay(sliderId, displayId) {
+        const slider = document.getElementById(sliderId);
+        const display = document.getElementById(displayId);
+        display.textContent = slider.value;
+      }
+
+      // Event listeners for sliders
+      metallicSlider.addEventListener('input', () => {
+        updateValueDisplay('metallic', 'metallicValue');
+        if (wheelMaterial) {
+          wheelMaterial.metalness = parseFloat(metallicSlider.value);
+        }
+      });
+
+      roughnessSlider.addEventListener('input', () => {
+        updateValueDisplay('roughness', 'roughnessValue');
+        if (wheelMaterial) {
+          wheelMaterial.roughness = parseFloat(roughnessSlider.value);
+        }
+      });
+
+      sharpnessSlider.addEventListener('input', () => {
+        updateValueDisplay('sharpness', 'sharpnessValue');
+        // Sharpness can be used to modify other material properties
+        if (wheelMaterial) {
+          // Example: adjust normal scale based on sharpness
+          const sharpness = parseFloat(sharpnessSlider.value);
+          if (wheelMaterial.normalScale) {
+            wheelMaterial.normalScale.set(sharpness, sharpness);
+          }
+        }
+      });
+
+      colorPicker.addEventListener('input', () => {
+        if (wheelMaterial) {
+          wheelMaterial.color.setStyle(colorPicker.value);
+        }
+      });
+
+      // Initialize display values
+      updateValueDisplay('metallic', 'metallicValue');
+      updateValueDisplay('roughness', 'roughnessValue');
+      updateValueDisplay('sharpness', 'sharpnessValue');
+
+      // Animate
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>My first three.js app</title>
+
+    <!-- UNPKG Importmap for Three.js -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <style>
+      body {
+        margin: 0;
+        background-color: #f5f5f5;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Header styles */
+      .header {
+        background-color: #1a1a1a;
+        color: white;
+        padding: 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      }
+
+      .nav-container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 20px;
+      }
+
+      .logo {
+        display: none; /* Hide logo in the menu bar */
+      }
+
+      .nav-menu {
+        display: flex;
+        justify-content: space-around;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .nav-link {
+        color: #ecf0f1;
+        text-decoration: none;
+        padding: 20px 25px;
+        display: block;
+        font-size: 16px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        background-color: #2c3e50;
+        color: #fff;
+      }
+
+      .nav-link.active {
+        background-color: #3498db;
+        color: white;
+        border-bottom: none;
+      }
+
+      .back-arrow {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: white;
+        text-decoration: none;
+        font-size: 24px;
+        transition: color 0.3s;
+      }
+
+      .back-arrow:hover {
+        color: #3498db;
+      }
+
+      .content {
+        margin-top: 60px; /* Reduced to account for smaller header */
+        padding: 20px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      /* Color picker styles */
+      .color-picker-container {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 100;
+      }
+
+      .color-picker-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+  <!-- Header Menu -->
+  <header class="header">
+    <a href="../index2.html" class="back-arrow">←</a>
+    <div class="nav-container">
+      <nav class="nav-menu">
+        <a href="carConf.html" class="nav-link">3D View</a>
+        <a href="color.html" class="nav-link active">Color</a>
+        <a href="wheel.html" class="nav-link">Wheels</a>
+        <a href="interior.html" class="nav-link">Interior</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="content">
+    <h1>Car Configuration</h1>
+
+    <script type="module">
+      import * as THREE from 'three';
+      import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+      import { OrbitControls } from 'three/addons/controls/OrbitControls';
+
+      // Initialize OrbitControls
+
+      // Renderer
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+      document.body.appendChild(renderer.domElement);
+
+      // Scene and Camera
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(4, 5, 11);
+      camera.lookAt(0, 0, 0);
+
+      //controls
+      const controls = new OrbitControls(camera,renderer.domElement);
+      controls.enableDamping = true;
+      controls.enablePan=false;
+      controls.minDistance = 5;
+      controls.maxDistance = 20;
+      controls.minPolarAngle = 0.5;
+      controls.maxPolarAngle = 1.5;
+      controls.autoRotate = false;
+      controls.target = new THREE.Vector3(0,1,0);
+      controls.update();
+
+
+      // Ground
+      const groundGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
+      groundGeometry.rotateX(-Math.PI / 2);
+      const groundMaterial = new THREE.MeshStandardMaterial({
+        color: 0x555555,
+        side: THREE.DoubleSide,
+      });
+      const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+      groundMesh.castShadow = false;
+      groundMesh.receiveShadow = true;
+      scene.add(groundMesh);
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(5, 10, 5);
+      directionalLight.castShadow = true;
+      scene.add(directionalLight);
+
+      const pointLight = new THREE.PointLight(0xffffff, 1);
+      pointLight.position.set(0, 5, 0);
+      scene.add(pointLight);
+
+      const spotLight = new THREE.SpotLight(0xffffff, 1);
+      spotLight.position.set(15, 20, 10);
+      spotLight.castShadow = true;
+      scene.add(spotLight);
+
+      const targetObject = new THREE.Object3D();
+      targetObject.position.set(0, 0, 0);
+      scene.add(targetObject);
+      spotLight.target = targetObject;
+
+      // Create color picker container
+      const colorPickerContainer = document.createElement('div');
+      colorPickerContainer.className = 'color-picker-container';
+      
+      const colorLabel = document.createElement('label');
+      colorLabel.className = 'color-picker-label';
+      colorLabel.textContent = 'Car Color';
+      
+      const colorPicker = document.createElement('input');
+      colorPicker.type = 'color';
+      colorPicker.value = '#3498db';
+      colorPicker.style.width = '100%';
+      colorPicker.style.padding = '5px';
+      colorPicker.style.border = '1px solid #ddd';
+      colorPicker.style.borderRadius = '4px';
+      
+      colorPickerContainer.appendChild(colorLabel);
+      colorPickerContainer.appendChild(colorPicker);
+      document.body.appendChild(colorPickerContainer);
+
+      // Load Car Model
+      const loader = new GLTFLoader();
+      loader.load('models/free_-_mclaren_p1_mso.glb', (gltf) => {
+        const mesh = gltf.scene;
+        const bodyMaterials = [];
+        
+        // First pass: Log all mesh names for debugging
+        console.log('Model parts:');
+        mesh.traverse((child) => {
+          if (child.isMesh) {
+            console.log('Mesh found:', child.name, 'Material:', child.material);
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+        
+        // Second pass: Apply materials based on mesh properties
+        mesh.traverse((child) => {
+  if (child.isMesh) {
+    // Clone material to avoid affecting other meshes sharing the same material
+    const material = child.material.clone();
+
+    // Determine if the mesh is a body part
+    const name = child.name.toLowerCase();
+    const matName = child.material.name?.toLowerCase() || '';
+    const isBodyPart =
+      name.includes('body') ||
+      name.includes('chassis') ||
+      name.includes('paint') ||
+      name.includes('car_body') ||
+      matName.includes('paint');
+
+    if (isBodyPart) {
+      // Enhance the body part material
+      material.metalness = 0.8;
+      material.roughness = 0.2;
+      material.envMapIntensity = 1.5;
+      material.color.set(0xffffff); // default white
+
+      // Add only body part materials to be changed later
+      bodyMaterials.push(material);
+    } else {
+      // Non-body part: dark material
+      material.color.set(0x333333);
+      material.metalness = 0.1;
+      material.roughness = 0.7;
+    }
+
+    // Apply the customized material
+    child.material = material;
+  }
+});
+ 
+        // Handle color changes
+        colorPicker.addEventListener('input', (event) => {
+          const color = new THREE.Color(event.target.value);
+          
+          // Update all body materials
+          bodyMaterials.forEach(material => {
+            material.color.copy(color);
+          });
+        });
+
+        mesh.position.set(0, 0, 0);
+        mesh.scale.set(2, 2, 2);
+        scene.add(mesh);
+        
+        console.log('Model loaded. Body materials:', bodyMaterials);
+      }, undefined, (error) => {
+        console.error('Error loading model:', error);
+      });
+
+      // Handle Window Resize
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // Animate
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera); // controls.update() removed
+      }
+      animate();
+    </script>
+  </div>
+  </body>
+</html>

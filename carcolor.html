@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Car Color Picker</title>
+  
+  <!-- JSColor CDN for custom color picker -->
+  <script src="https://jscolor.com/releases/2.4.5/jscolor.js"></script>
+  
+  <style>
+    /* Header styles */
+    .config-header {
+      background-color: #f8f9fa;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    .config-title {
+      margin: 0 0 1rem 0;
+      color: #333;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .colors-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
+
+    .color-option:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+
+
+    .color {
+      height: 36px;
+      width: 36px;
+      border-radius: 50%;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+      border: 2px solid #fff;
+      margin-bottom: 0.5rem;
+      transition: transform 0.2s;
+    }
+
+    .color:hover {
+      transform: scale(1.1);
+    }
+
+    .color-label {
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+
+    #productImage {
+      display: block;
+      max-width: 100%;
+      margin: 180px auto 2em;
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    /* Custom color picker adjustments */
+    .jscolor {
+      border: 2px solid #fff !important;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.2) !important;
+      border-radius: 50% !important;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Car Container with Multiple Layers -->
+  <div style="position: relative; margin: 180px auto 2em; max-width: 600px;">
+    <!-- Base Layer (non-painted parts) -->
+    <img 
+      id="baseLayer" 
+      src="https://ddools.imgix.net/cars/base.png?w=600" 
+      alt="Car base" 
+      style="position: absolute; top: 0; left: 0; width: 100%; z-index: 1;"
+    />
+    
+    <!-- Paint Layer (colorable body) -->
+    <img 
+      id="paintLayer" 
+      src="https://ddools.imgix.net/cars/paint.png?w=600" 
+      alt="Car paint" 
+      style="position: absolute; top: 0; left: 0; width: 100%; z-index: 2;"
+    />
+    
+    <!-- Top Layer (windows, details) -->
+    <img 
+      id="topLayer" 
+      src="https://ddools.imgix.net/cars/top.png?w=600" 
+      alt="Car details" 
+      style="position: relative; width: 100%; z-index: 3;"
+    />
+  </div>
+
+  <!-- Header with Color Picker -->
+  <header class="config-header">
+    <h1 class="config-title">Configure Your Car Color</h1>
+    <div class="colors-container">
+      <div class="color-option" data-hex="000000">
+        <div class="color" style="background-color: #000000"></div>
+        <span class="color-label">Black</span>
+      </div>
+      <div class="color-option" data-hex="0d4671">
+        <div class="color" style="background-color: #0d4671"></div>
+        <span class="color-label">Navy Blue</span>
+      </div>
+      <div class="color-option" data-hex="63803a">
+        <div class="color" style="background-color: #63803a"></div>
+        <span class="color-label">Olive Green</span>
+      </div>
+      <div class="color-option" data-hex="841210">
+        <div class="color" style="background-color: #841210"></div>
+        <span class="color-label">Burgundy</span>
+      </div>
+      <div class="color-option" data-hex="none">
+        <div class="color" style="background-color: #a09e9f"></div>
+        <span class="color-label">No Paint</span>
+      </div>
+      <div class="color-option">
+        <input id="customColour" class="color jscolor" onchange="update(this.jscolor)" value="3498db" />
+        <span class="color-label">Custom</span>
+      </div>
+    </div>
+  </header>
+
+  <script>
+    // Add click event listeners to color options
+    document.addEventListener('DOMContentLoaded', function() {
+      const colorOptions = document.querySelectorAll('.color-option');
+      colorOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          const hex = this.getAttribute('data-hex');
+          changeColor(hex);
+        });
+      });
+    });
+
+    // Function to update car color
+    function changeColor(hex) {
+      // Get the paint layer
+      const paintLayer = document.getElementById("paintLayer");
+      
+      // If "none" is selected, hide the paint layer
+      if (hex === "none") {
+        paintLayer.style.display = 'none';
+        return;
+      }
+      
+      // Show the paint layer if it was hidden
+      paintLayer.style.display = 'block';
+      
+      // Apply the color to the paint layer using CSS filters
+      paintLayer.style.filter = `hue-rotate(${getHueRotation(hex)}) saturate(1.5) brightness(0.9)`;
+    }
+    
+    // Custom color picker
+    function update(jscolor) {
+      // Show the paint layer if it was hidden
+      const paintLayer = document.getElementById("paintLayer");
+      paintLayer.style.display = 'block';
+      
+      // Get the hex color and apply it
+      const hex = jscolor.toHEXString();
+      paintLayer.style.filter = `hue-rotate(${getHueRotation(hex)}) saturate(1.5) brightness(0.9)`;
+      
+      // Update the custom color swatch
+      document.querySelector('.jscolor').style.backgroundColor = '#' + hex;
+    }
+    
+    // Helper function to convert hex color to hue-rotation value
+    function getHueRotation(hex) {
+      // If it's a named color, use a default hue rotation
+      if (hex === '000000') return '0deg';
+      if (hex === '0d4671') return '210deg';
+      if (hex === '63803a') return '90deg';
+      if (hex === '841210') return '0deg';
+      
+      // For custom colors, convert hex to RGB to HSL to get hue
+      try {
+        // Remove # if present
+        hex = hex.replace('#', '');
+        
+        // Parse the hex color
+        const r = parseInt(hex.substring(0, 2), 16) / 255;
+        const g = parseInt(hex.substring(2, 4), 16) / 255;
+        const b = parseInt(hex.substring(4, 6), 16) / 255;
+        
+        // Find max and min values
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
+        
+        // Calculate hue
+        if (max === min) {
+          h = 0; // achromatic
+        } else {
+          const d = max - min;
+          switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+          }
+          h /= 6;
+        }
+        
+        // Convert to degrees (0-360)
+        return `${Math.round(h * 360)}deg`;
+      } catch (e) {
+        return '0deg';
+      }
+    }
+  </script>
+</body>
+</html>

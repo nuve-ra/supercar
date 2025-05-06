@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supercar Showcase</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1><i class="fas fa-car-side"></i> Supercar Showcase</h1>
+      <nav>
+        <a href="#" class="active"><i class="fas fa-home"></i> <span>Home</span></a>
+        <a href="image.html"><i class="fas fa-images"></i> <span>Gallery</span></a>
+        <a href="video.html"><i class="fas fa-play-circle"></i> <span>Videos</span></a>
+        <a href="gif.html"><i class="fas fa-film"></i> <span>GIFs</span></a>
+        <a href="pdf.html"><i class="fas fa-file-alt"></i> <span>Documents</span></a>
+        <a href="three/carConf.html"><i class="fas fa-cube"></i> <span>3D Model</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="well">
+      <h2>Welcome to the Supercar Experience</h2>
+      <p>
+        Dive into the world of supercars with our interactive showcase. Explore stunning visuals, 
+        dynamic videos, and informative content about the most iconic supercars in history.
+      </p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <a href="image.html" class="tooltip-link" data-tooltip="Explore high-resolution images of legendary supercars">
+            <h3>Gallery</h3>
+            <p>View stunning photos of iconic supercars</p>
+          </a>
+        </div>
+
+        <div class="feature-item">
+          <a href="video.html" class="tooltip-link" data-tooltip="Watch dynamic videos showcasing supercar performance">
+            <h3>Videos</h3>
+            <p>Experience the power and beauty of supercars in action</p>
+          </a>
+        </div>
+
+        <div class="feature-item">
+          <a href="gif.html" class="tooltip-link" data-tooltip="Enjoy animated GIFs capturing supercar moments">
+            <h3>GIFs</h3>
+            <p>See supercars in motion through animated GIFs</p>
+          </a>
+        </div>
+
+        <div class="feature-item">
+          <a href="pdf.html" class="tooltip-link" data-tooltip="Download detailed supercar specifications and history">
+            <h3>Documents</h3>
+            <p>Access comprehensive information about supercars</p>
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <div id="tooltip" class="tooltip-box"></div>
+
+  <style>
+    #viewer {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+    }
+
+    .color-picker {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .color-picker button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .color-picker button:hover {
+      transform: scale(1.1);
+    }
+  </style>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+  <!-- Include GLTFLoader -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/ColladaLoader.js"></script>
+
+  <!-- Include OrbitControls -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="supercar.js"></script>
+
+  
+</body>
+</html>

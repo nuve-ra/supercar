@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supercar Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 class="shine-text">Supercar Gallery</h1>
+        <nav>
+            <a href="/index2.html">Home</a>
+            <a href="video.html">Videos</a>
+            <a href="gif.html">GIFs</a>
+            <a href="pdf.html">Documents</a>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <h2>Iconic Supercars</h2>
+            <div class="gallery-container">
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <div class="gallery-card">
+                            <img src="assests/black.jpeg" alt="Ferrari 488 GTB">
+                            <div class="gallery-content">
+                                <h3>Ferrari 488 GTB</h3>
+                                <p>The Ferrari 488 GTB is a mid-engined sports car that was produced by Italian automotive manufacturer Ferrari from 2015 to 2020.</p>
+                                <a href="https://www.ferrari.com/en-EN/auto/ferrari-488-gtb" target="_blank">Know more</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-card">
+                            <img src="assests/car1.jpg" alt="Lamborghini Huracan">
+                            <div class="gallery-content">
+                                <h3>Lamborghini Huracan</h3>
+                                <p>The Lamborghini Huracán is a mid-engined sports car manufactured by Italian automaker Lamborghini.</p>
+                                <a href="https://en.wikipedia.org/wiki/Lamborghini_Hurac%C3%A1n" target="_blank">Know more</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-card">
+                            <img src="assests/2017-03-07_Geneva_Motor_Show_1135.JPG" alt="McLaren 720S">
+                            <div class="gallery-content">
+                                <h3>McLaren 720S</h3>
+                                <p>The McLaren 720S is a mid-engined sports car produced by British car manufacturer McLaren Automotive.</p>
+                                <a href="https://en.wikipedia.org/wiki/McLaren_720S" target="_blank">Know more</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-card">
+                            <img src="assests/bottompagepic-8.jpg" alt="McLaren 720S">
+                            <div class="gallery-content">
+                                <h3>McLaren 720S</h3>
+                                <p>The McLaren 720S is a mid-engined sports car produced by British car manufacturer McLaren Automotive.</p>
+                                <a href="https://en.wikipedia.org/wiki/McLaren_720S" target="_blank">Know more</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <div class="gallery-card">
+                            <img src="assests/Lamborghini-Revuelto.webp" alt="Lamborghini Revuelto">
+                            <div class="gallery-content">
+                                <h3>Lamborghini Revuelto</h3>
+                                <p>The Lamborghini Revuelto is a hybrid supercar that represents the future of Lamborghini's performance.</p>
+                                <a href="https://en.wikipedia.org/wiki/Lamborghini_Revuelto" target="_blank">Know more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        // Add staggered animations for gallery items
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        galleryItems.forEach(item => {
+            observer.observe(item);
+        });
+
+        // Add hover effect to gallery cards
+        const galleryCards = document.querySelectorAll('.gallery-card');
+        galleryCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('hover');
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('hover');
+            });
+        });
+
+        // Add click handler to open modal
+        galleryCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const imgSrc = card.querySelector('img').src;
+                const title = card.querySelector('h3').textContent;
+                const description = card.querySelector('p').textContent;
+
+                // Create modal content
+                const modalContent = `
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <img src="${imgSrc}" alt="${title}">
+                        <div class="modal-text">
+                            <h2>${title}</h2>
+                            <p>${description}</p>
+                        </div>
+                    </div>
+                `;
+
+                // Create and show modal
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = modalContent;
+                document.body.appendChild(modal);
+
+                // Add animation class
+                modal.classList.add('show');
+
+                // Close modal when clicking the X
+                const closeBtn = modal.querySelector('.close-modal');
+                closeBtn.addEventListener('click', () => {
+                    modal.classList.remove('show');
+                    setTimeout(() => modal.remove(), 300);
+                });
+
+                // Close modal when clicking outside
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('show');
+                        setTimeout(() => modal.remove(), 300);
+                    }
+                });
+
+                // Add close button to all modals
+                const closeButton = modal.querySelector('.close-modal');
+                if (!closeButton) {
+                    const newCloseButton = document.createElement('span');
+                    newCloseButton.className = 'close-modal';
+                    newCloseButton.textContent = '×';
+                    modal.appendChild(newCloseButton);
+                    
+                    newCloseButton.addEventListener('click', () => {
+                        modal.classList.remove('show');
+                        setTimeout(() => modal.remove(), 300);
+                    });
+                }
+            });
+        });
+
+        // Add float animation to cards
+        function floatAnimation() {
+            galleryCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.animation = 'float 3s ease-in-out infinite';
+                }, index * 100);
+            });
+        }
+
+        // Start float animation after page load
+        window.addEventListener('load', floatAnimation);
+    </script>
+
+    <style>
+        .gallery-container {
+            position: relative;
+            width: 80%;
+            margin: 40px auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+        }
+
+        .gallery-item{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 320px;
+            border-radius: 24px;
+            line-height: 1.6;
+            transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .gallery-content{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        padding: 36px;
+        border-radius: 22px;
+        color: #ffffff;
+        overflow: hidden;
+        transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+
+    }
+    .gallery-card {
+        position: relative;
+        width: 320px;
+        height: 400px;
+        border-radius: 24px;
+        z-index: 1111;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+        transition: transform 0.5s ease;
+        }
+
+    .gallery-card:hover {
+        transform: scale(1.05);
+        }
+
+
+  </style>
+</body>
+</html>
