@@ -29,18 +29,21 @@ header h1 {
 header {
   background: linear-gradient(
     135deg,
-    #3a3a3a 0%,
-    #4a4a4a 25%,
-    #7a7a7a 50%,
-    #4a4a4a 75%,
-    #3a3a3a 100%
+    #2f2f2f 0%,
+    #3d3d3d 25%,
+    #6e6e6e 50%,
+    #3d3d3d 75%,
+    #2f2f2f 100%
   );
-  padding: 0.5rem 1.5rem;
+  padding: 0.3rem 1.5rem;
+  height: 55px; /* Slightly reduced height */
+  box-sizing: border-box;
+  overflow: hidden;
   box-shadow:
-    0 2px 10px rgba(0, 0, 0, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 2px 2px rgba(255, 255, 255, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.1);
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 15px 15px;
   margin: 0;
   color: white;
   position: fixed;
@@ -49,7 +52,6 @@ header {
   right: 0;
   z-index: 1000;
   display: flex;
-  height: 100px;
   justify-content: space-between;
   align-items: center;
   backdrop-filter: blur(5px);
@@ -63,7 +65,7 @@ header::before {
   top: 0;
   left: 0;
   right: 0;
-  height: 10px;
+  height: 2px;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
   animation: shine 3s infinite;
 }
@@ -72,55 +74,51 @@ header::before {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
+/* 
 header h1 {
   margin: 0;
   font-size: 12px;
-  font-weight: 200;
+  font-weight: 700;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   background: linear-gradient(90deg, #fff, #ddd);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 0.3px;
+  letter-spacing: 1px;
   position: relative;
-  padding: 0.2rem 0.7rem;
-  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   background-clip: padding-box;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
-}
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
+} */
 
 nav {
   display: flex;
-  gap: 0.6rem;
+  gap: 1rem;
+  align-items: center;
+  height: 55px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 nav a {
-  color: #eee;
+  color: white;
   text-decoration: none;
-  padding: 0.3rem 0.6rem;
+  
   border-radius: 4px;
   font-weight: 500;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  font-size: 14px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 4px;
-  height: 30px;
+  gap: 0.3rem;
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 nav a:hover,
@@ -137,7 +135,7 @@ nav a::before {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 55px;
   background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   transform: translateX(-100%);
   transition: 0.5s;
@@ -154,7 +152,7 @@ header::before {
   top: 0;
   left: -100%;
   width: 200%;
-  height: 200%;
+  height: 55px;
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0.1) 0%,
@@ -183,18 +181,18 @@ nav {
   display: flex;
   gap: 1.5rem;
 }
-
 nav a {
-  padding: 2em 2em;
+  
  background: none;
- border: 2px solid #fff;
- font-size: 15px;
+ padding: 1.1em 2em;
+ border: 1px solid #fff;
+ font-size: 12px;
  color: #131313;
  cursor: pointer;
  position: relative;
  overflow: hidden;
  transition: all 0.3s;
- border-radius: 12px;
+ 
  background-color: #ecd448;
  font-weight: bolder;
  box-shadow: 0 2px 0 2px #000;
@@ -202,75 +200,78 @@ nav a {
 
 /* Individual button styles */
 nav a[href="image.html"] {
+  background: none;
   padding: 1.1em 2em;
- background: none;
- border: 2px solid #fff;
- font-size: 15px;
- color: #131313;
- cursor: pointer;
- position: relative;
- overflow: hidden;
- transition: all 0.3s;
- border-radius: 12px;
- background-color: #ecd448;
- font-weight: bolder;
- box-shadow: 0 2px 0 2px #000;
+  border: 1px solid #fff;
+  font-size: 12px;
+  color: #131313;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  
+  background-color: #ecd448;
+  font-weight: bolder;
+  box-shadow: 0 2px 0 2px #000;
 
 }
 
 nav a[href="video.html"] {
+
+  background: none;
   padding: 1.1em 2em;
- background: none;
- border: 2px solid #fff;
- font-size: 15px;
- color: #131313;
- cursor: pointer;
- position: relative;
- overflow: hidden;
- transition: all 0.3s;
- border-radius: 12px;
- background-color: #ecd448;
- font-weight: bolder;
- box-shadow: 0 2px 0 2px #000;
+  border: 1px solid #fff;
+  font-size: 12px;
+  color: #131313;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  
+  background-color: #ecd448;
+  font-weight: bolder;
+  box-shadow: 0 2px 0 2px #000;
 }
 
 nav a[href="gif.html"] {
- padding: 1.1em 2em;
- background: none;
- border: 2px solid #fff;
- font-size: 15px;
- color: #131313;
- cursor: pointer;
- position: relative;
- overflow: hidden;
- transition: all 0.3s;
- border-radius: 12px;
- background-color: #ecd448;
- font-weight: bolder;
- box-shadow: 0 2px 0 2px #000;
+
+  background: none;
+  padding: 1.1em 2em;
+  border: 1px solid #fff;
+  font-size: 12px;
+  color: #131313;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  
+  background-color: #ecd448;
+  font-weight: bolder;
+  box-shadow: 0 2px 0 2px #000;
 }
 
 nav a[href="pdf.html"] {
- padding: 1.1em 2em;
- background: none;
- border: 2px solid #fff;
- font-size: 15px;
- color: #131313;
- cursor: pointer;
- position: relative;
- overflow: hidden;
- transition: all 0.3s;
- border-radius: 12px;
- background-color: #ecd448;
- font-weight: bolder;
- box-shadow: 0 2px 0 2px #000;
+
+  background: none;
+  padding: 1.1em 2em;
+  border: 1px solid #fff;
+  font-size: 12px;
+  color: #131313;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  
+  background-color: #ecd448;
+  font-weight: bolder;
+  box-shadow: 0 2px 0 2px #000;
 
 }
 
 nav a[href="supercar.html"] {
   display: inline-block;
-  padding: 10px 20px;
-  font-size: 16pxpx;
+  padding: 8px 16px;
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
   text-decoration: none;
@@ -336,22 +337,22 @@ nav a:hover::after {
 nav a::before {
   content: "";
   position: absolute;
-  width: 60px;
-  height: 100%;
+  width: 100px;
+  height: 120%;
   background-color: #ff6700;
   top: 50%;
   transform: skewX(30deg) translate(-150%, -50%);
   transition: all 0.5s;
-}
+} 
 /* Main content styles */
 main {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 6rem 2rem 2rem; /* Added top padding to account for fixed header */
 }
 
 article {
-  background: white;
+  background: rgb(252, 249, 249);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -361,30 +362,34 @@ h2 {
   color: #2c3e50;
   margin-bottom: 1.5rem;
 }
-
-/* Feature grid */
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
 .feature-item {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
+  display: inline-block;
+  width: 40%;
+  margin: 10px;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #928888;  /* Adding border to make it a box */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feature-item:hover {
-  transform: translateY(-5px);
+  transform: scale(1.05);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .feature-item h3 {
-  color: #2c3e50;
-  margin-bottom: 16px;
+  font-size: 1.5em;
+  color: #333;
 }
+
+.feature-item p {
+  color: #666;
+  font-size: 1em;
+}
+
 
 /* Slider styles */
 .slider-container {
@@ -423,22 +428,38 @@ h2 {
 }
 
 .next {
-  right: 20px;
+right: 20px;
+}
+
+.header-content {
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+max-width: 1200px;
+margin: 0 auto;
+padding: 0cm;
+height: 100%;
 }
 
 .slider {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-  position: relative;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+height: 500px;
+overflow: hidden;
+position: relative;
 }
 
 .slide {
-  position: absolute;
-  width: 100%;
+position: absolute;
+width: 100%;
+height: 100%;
+display: none;
+justify-content: center;
+align-items: center;
+transition: opacity 0.5s ease;
   height: 100%;
   display: none;
   justify-content: center;
@@ -480,7 +501,6 @@ h2 {
   font-size: 16px;
   opacity: 0.9;
 }
-
 /* Gallery styles */
 .gallery-container {
   padding: 40px 20px;
@@ -494,22 +514,26 @@ h2 {
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(2, 1fr); /* Only 2 columns */
   gap: 40px;
   padding: 20px;
   position: relative;
 }
-
 .gallery-item {
   perspective: 1000px;
   opacity: 0;
   transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.gallery-item.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .gallery-card {
-  position: relative;
   width: 100%;
-  height: 500px;
+  aspect-ratio: 4 / 5; /* optional: keeps consistent card shape */
   background: #fff;
   border-radius: 25px;
   overflow: hidden;
@@ -517,8 +541,10 @@ h2 {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
   border: 2px solid rgba(255, 255, 255, 0.1);
-}
+  max-width: 100%; /* Ensure it never overflows */
+  height: auto;
 
+}
 .gallery-card:hover {
   transform: translateY(-15px) rotateX(10deg) scale(1.03);
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
@@ -528,9 +554,8 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
 }
-
 .gallery-card:hover img {
   opacity: 0.7;
   transform: scale(1.1);
@@ -539,9 +564,7 @@ h2 {
 .gallery-content {
   position: absolute;
   bottom: 0;
-  left: 0;
   width: 100%;
-  padding: 30px;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
   color: #fff;
   transform: translateY(100%);
@@ -559,7 +582,6 @@ h2 {
   font-weight: 700;
   letter-spacing: -0.5px;
   text-transform: uppercase;
-  transition: all 0.4s ease;
 }
 
 .gallery-content p {
@@ -567,15 +589,13 @@ h2 {
   font-size: 16px;
   opacity: 0.95;
   line-height: 1.4;
-  transition: all 0.4s ease;
 }
 
 .gallery-card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  width: 80%;
   height: 100%;
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -585,7 +605,37 @@ h2 {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
 }
 
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .gallery-card {
+    width: 100%;
+    height: 450px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-card {
+    width: 100%;
+    height: auto;
+  }
+}
+     
 /* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -608,6 +658,10 @@ h2 {
     transform: translateY(0);
   }
 }
+
+
+
+
 
 /* Modal styles */
 .modal {
