@@ -91,7 +91,9 @@ header h1 {
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3);
 } */
-
+.word{
+  font-size:16px;
+}
 nav {
   display: flex;
   gap: 1rem;
@@ -184,7 +186,7 @@ nav {
 nav a {
   
  background: none;
- padding: 1.1em 2em;
+ padding: 0.1em 1.2em;
  border: 1px solid #fff;
  font-size: 12px;
  color: #131313;
@@ -199,9 +201,26 @@ nav a {
 }
 
 /* Individual button styles */
+nav a[href="#"] {
+  background: none;
+  padding: 0.6em 1.2em;
+  border: 1px solid #fff;
+  font-size: 12px;
+  color: #131313;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  
+  background-color: #ecd448;
+  font-weight: bolder;
+  box-shadow: 0 2px 0 2px #000;
+
+}
+
 nav a[href="image.html"] {
   background: none;
-  padding: 1.1em 2em;
+  padding: 0.6em 1.2em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -219,7 +238,7 @@ nav a[href="image.html"] {
 nav a[href="video.html"] {
 
   background: none;
-  padding: 1.1em 2em;
+  padding: 0.6em 1.2em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -231,12 +250,13 @@ nav a[href="video.html"] {
   background-color: #ecd448;
   font-weight: bolder;
   box-shadow: 0 2px 0 2px #000;
+
 }
 
 nav a[href="gif.html"] {
 
   background: none;
-  padding: 1.1em 2em;
+  padding: 0.6em 1.2em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -248,12 +268,13 @@ nav a[href="gif.html"] {
   background-color: #ecd448;
   font-weight: bolder;
   box-shadow: 0 2px 0 2px #000;
+
 }
 
 nav a[href="pdf.html"] {
 
   background: none;
-  padding: 1.1em 2em;
+  padding: 0.6em 1.2em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -268,20 +289,20 @@ nav a[href="pdf.html"] {
 
 }
 
-nav a[href="supercar.html"] {
-  display: inline-block;
-  padding: 8px 16px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  color: #fff;
-  background-color: #ff5252;
-  border: 2px solid #000;
-  border-radius: 10px;
-  box-shadow: 5px 5px 0px #000;
-  transition: all 0.3s ease;
+nav a[href="three/carConf.html"] {
+  background: none;
+  padding: 0.6em 1.2em;
+  border: 1px solid #fff;
+  font-size: 12px;
+  color: #131313;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  
+  background-color: #ecd448;
+  font-weight: bolder;
+  box-shadow: 0 2px 0 2px #000;
 
 }
 
