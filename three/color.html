@@ -198,10 +198,36 @@
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 
     }
+    .back-arrow {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: white;
+        text-decoration: none;
+        font-size: 24px;
+        transition: color 0.3s, background-color 0.3s, box-shadow 0.3s;
+        background-color: #333; 
+        border-radius: 50%; /* Makes it a circle */
+        width: 40px; /* Size of the circle */
+        height: 40px; /* Size of the circle */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
+      }
+
+      .back-arrow:hover {
+        color: #3498db;
+        background-color: #ecf0f1; 
+        box-shadow: 0 0 20px 2px rgba(52, 152, 219, 0.8); 
+      }
+
     
   </style>
 </head>
 <body>
+  <a href="/three/carConf.html" class="back-arrow">←</a> 
   <div class="content" style="padding-top: 20px; ">
     <h1 class="head">Choose Your Car Color</h1>
     <div style="display: flex; gap: 30px; margin-top: 20px; ">
