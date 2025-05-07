@@ -9,8 +9,7 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background-color: lightblue;
-      padding-top: 20px;
+      background-color: rgb(185, 173, 230);
     }
 
     h1 {
@@ -198,7 +197,7 @@
     <h1>Choose Your Car Color</h1>
     <div style="display: flex; gap: 30px; margin-top: 20px;">
       <!-- 3D Model Preview -->
-       <div id="viewer" style="width: 100%; height: 400px; position: relative;"></div>
+       <div id="viewer" style="width: 800px; height: 400px; position: relative;"></div>
        
       
       <!-- Color Controls -->
@@ -207,6 +206,14 @@
           <button class="tab-button active" data-tab="body-tab" style="flex: 1; padding: 10px; border: none; background: none; cursor: pointer; border-bottom: 2px solid #3498db;">Body</button>
           <button class="tab-button" data-tab="wheel-tab" style="flex: 1; padding: 10px; border: none; background: none; cursor: pointer;">Wheels</button>
         </div>
+        <div id="colorPopup" class="popup-overlay">
+          <div class="popup-content">
+            <span class="close-button" id="closePopup">&times;</span>
+            <h2>Color Applied</h2>
+            <p>Your selected color has been applied to the car model.Please use the below option to show your applied colour.</p>
+          </div>
+        </div>
+        
         
         <!-- Body Tab -->
         <div id="body-tab" class="tab-content" style="display: block;">
@@ -223,11 +230,14 @@
             <input type="range" id="roughness" min="0" max="1" step="0.1" value="0.3" style="width: 100%;">
           </div>
         </div>
+        <!----background image-->
+        <select id="backgroundSelector">
+          <option value="/assests/garage2.jpeg">City</option>
+          <option value="/assests/garage3.jpeg">Mountains</option>
+          <option value="/assests/Garage.jpg">Desert</option>
+        </select>
         
-        <!-- Wheel Tab -->
-        <div id="wheel-tab" class="tab-content" style="display: none;">
-          <h3>Wheel Color</h3>
-          <input type="color" id="wheel-color-picker" value="#333333" style="width: 100%; height: 50px; margin: 15px 0;">
+        
           
           <div style="margin: 20px 0;">
             <label style="display: block; margin-bottom: 5px;">Metallic: <span id="wheel-metallic-value">0.8</span></label>
@@ -240,15 +250,40 @@
           </div>
         </div>
         
-        <h4>Color Palette</h4>
-        <div class="color-palette">
-          <div class="color-option custom-color">
-            <div class="color-swatch" style="background: linear-gradient(45deg, #ff0000, #ff9900, #ffff00, #33cc33, #3399ff, #cc66ff, #ff00ff);"></div>
-            <div class="color-name">Custom Color</div>
-            <input type="color" id="customColor" style="width: 100%; margin-top: 5px; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;">
-          </div>
-        </div>
+        
         <style>
+          .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          }
+
+/* Popup Content */
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  width: 300px;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
           .color-palette {
             display: flex;
             flex-wrap: wrap;
@@ -325,7 +360,10 @@
         colorPicker = document.getElementById('color-picker');
         metallicSlider = document.getElementById('metallic');
         roughnessSlider = document.getElementById('roughness');
-        customColorInput = document.getElementById('custom-color');
+        const colorPopup = document.getElementById('colorPopup');
+        const closePopup = document.getElementById('closePopup');
+
+        // customColorInput = document.getElementById('custom-color');
         
         if (!colorPicker || !metallicSlider || !roughnessSlider) {
           throw new Error('Required DOM elements not found');
@@ -366,6 +404,7 @@
       }
     });
     
+
     // Debug function to log all mesh names and materials
     function logAllMeshNames() {
       if (carModel) {
@@ -387,6 +426,13 @@
         });
       }
     }
+    function showPopup() {
+  colorPopup.style.display = 'flex';
+}
+function hidePopup() {
+  colorPopup.style.display = 'none';
+}
+
 
     // Update material when controls change
     function updateMaterial() {
@@ -432,7 +478,8 @@
         }
       });
     });
-    
+
+        
     // Initialize the 3D scene
     function init() {
       console.log('Initializing 3D scene...');
@@ -552,15 +599,7 @@
             carModel.position.y = -size.y * scale * 0.5; // Place on ground
             scene.add(carModel);
 
-            // const colorPicker = document.getElementById('colorPicker');
-            // if (colorPicker) {
-            //   colorPicker.addEventListener('input', (e) => {
-            //     const newColor = e.target.value;
-            //     localStorage.setItem('carColor', newColor); // Save new color
-            //     applyColorToModel(newColor); // Apply new color to car model
-            //   });
-            // }
-            
+           
             // Hide loading indicator
             if (loadingElement) {
               loadingElement.style.display = 'none';
@@ -658,8 +697,8 @@
           const lowerName = child.name.toLowerCase();
           
           // Check if this part should be excluded
-         // const isExcluded = excludedParts.some(part => lowerName.includes(part));
-         // const isBodyPart = bodyParts.some(part => lowerName.includes(part));
+        // const isExcluded = excludedParts.some(part => lowerName.includes(part));
+        //  const isBodyPart = bodyParts.some(part => lowerName.includes(part));
           const isExcluded = false;
           const isBodyPart = true;
           // For debugging
@@ -706,7 +745,18 @@
       
       console.log(`Applied color to ${paintedCount} body parts, skipped ${skippedCount} parts`);
     }
-    
+    scene.background = skyboxTexture;
+    const fileInput = document.getElementById('fileInput');
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const texture = new THREE.TextureLoader().load(e.target.result);
+        scene.background = texture;
+      };
+      reader.readAsDataURL(file);
+    });
+
     // Handle window resize
     function onWindowResize() {
       const viewer = document.getElementById('viewer');
@@ -725,6 +775,7 @@
     
     // Initialize the 3D viewer
     init();
+  
     function updateColor(color) {
   // Example: apply the selected color to a car preview element
   const carPreview = document.getElementById('car-preview');
@@ -755,6 +806,22 @@
           localStorage.setItem('carColor', color);
         });
       });
+      const backgroundSelector = document.getElementById('backgroundSelector');
+const textureLoader = new THREE.TextureLoader();
+
+backgroundSelector.addEventListener('change', (event) => {
+  const selectedImage = event.target.value;
+  textureLoader.load(selectedImage, (texture) => {
+    texture.colorSpace = THREE.SRGBColorSpace; // Ensures correct color rendering
+    scene.background = texture;
+  });
+});
+
+// Set default background on initial load
+textureLoader.load('assests/whiteng.avif', (texture) => {
+  texture.colorSpace = THREE.SRGBColorSpace;
+  scene.background = texture;
+});
 
       // Handle custom color selection
       if (customColorInput) {
@@ -777,6 +844,10 @@
           const color = this.value;
           console.log('Color picker changed:', color);
           updateColor(color);
+          showPopup();
+          closePopup.addEventListener('click', hidePopup);
+
+
           // Save to localStorage
           localStorage.setItem('carColor', color);
         });
