@@ -133,15 +133,13 @@
         <a href="carConf.html" class="nav-link active">3D View</a>
         <a href="color.html" class="nav-link">Color</a>
         <a href="wheel.html" class="nav-link">Wheels</a>
-        <!-- <a href="interior.html" class="nav-link">Interior</a> -->
-        <!-- <a href="gallery.html" class="nav-link">Gallery</a> -->
       </nav>
     </div>
   </header>
 
   <div id="canvas-container"></div>
 
-  <!-- Import map for Three.js -->
+  <!--  Three.js -->
   <script type="importmap">
     {
       "imports": {
@@ -156,16 +154,16 @@
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
     import { OrbitControls } from 'three/addons/controls/OrbitControls';
 
-    // Initialize the scene
+  
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
 
-    // Initialize camera
+    
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / (window.innerHeight - 60), 0.1, 1000);
     camera.position.set(4, 5, 11);
     camera.lookAt(0, 1, 0);
 
-    // Initialize renderer
+    
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight - 60);
     renderer.shadowMap.enabled = true;
@@ -199,7 +197,6 @@
     loader.load('models/free_-_mclaren_p1_mso.glb', (gltf) => {
       carModel = gltf.scene;
       
-      // Enable shadows for all meshes in the model
       carModel.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
@@ -214,14 +211,13 @@
       console.log('Car model loaded');
     }, undefined, (error) => {
       console.error('Error loading car model:', error);
-      // Create a simple cube as fallback
       const geometry = new THREE.BoxGeometry(2, 1, 4);
       const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
       carModel = new THREE.Mesh(geometry, material);
       scene.add(carModel);
     });
 
-    // Initialize OrbitControls
+    // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
@@ -237,7 +233,6 @@
     loader.load('models/free_-_mclaren_p1_mso.glb', (gltf) => {
       carModel = gltf.scene;
       
-      // Set up shadows and scale
       carModel.traverse((child) => {
         if (child.isMesh) {
           child.castShadow = true;
@@ -249,7 +244,6 @@
       carModel.position.y = 0;
       scene.add(carModel);
 
-      // Apply saved color if exists
       const savedColor = localStorage.getItem('carColor');
       if (savedColor) {
         applyColorToModel(savedColor);
@@ -258,7 +252,6 @@
       console.error('Error loading model:', error);
     });
 
-    // Function to apply color to the model
     function applyColorToModel(colorHex) {
       if (!carModel) return;
       
@@ -266,7 +259,6 @@
       
       carModel.traverse((child) => {
         if (child.isMesh) {
-          // Only apply to body parts (customize these conditions based on your model)
           if (child.name.toLowerCase().includes('body') || 
               child.name.toLowerCase().includes('chassis') ||
               child.name.toLowerCase().includes('paint')) {
@@ -276,26 +268,23 @@
       });
     }
 
-    // Listen for color updates from other windows
     window.addEventListener('message', (event) => {
       if (event.data.type === 'updateColor') {
         applyColorToModel(event.data.color);
       }
     });
 
-    // Handle window resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / (window.innerHeight - 60);
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight - 60);
     });
 
-    // Animation loop
+    // Animation 
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
       
-      // Auto-rotate the model if enabled
       if (controls.autoRotate) {
         carModel.rotation.y += 0.002;
       }

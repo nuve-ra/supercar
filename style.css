@@ -369,7 +369,7 @@ nav a::before {
 main {
   max-width: 800px;
   margin: 0 auto;
-  padding: 6rem 2rem 2rem; /* Added top padding to account for fixed header */
+  padding: 6rem 2rem 2rem; 
 }
 
 article {
@@ -523,6 +523,7 @@ transition: opacity 0.5s ease;
   opacity: 0.9;
 }
 /* Gallery styles */
+
 .gallery-container {
   padding: 40px 20px;
   max-width: 1200px;
@@ -554,15 +555,15 @@ transition: opacity 0.5s ease;
 
 .gallery-card {
   width: 100%;
-  aspect-ratio: 4 / 5; /* optional: keeps consistent card shape */
+  aspect-ratio: 4 / 5; 
   background: #fff;
   border-radius: 25px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: 30px 30px 80px #bebebe, -10px -10px 60px #ffffff;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
   border: 2px solid rgba(255, 255, 255, 0.1);
-  max-width: 100%; /* Ensure it never overflows */
+  max-width: 100%; 
   height: auto;
 
 }
@@ -615,16 +616,42 @@ transition: opacity 0.5s ease;
 .gallery-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  width: 80%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  top: -10px;
+  left: -50%;
+  width: 200%;
+  height: 30px;
+  background-image:
+    radial-gradient(circle, #0fe0e0 20%, transparent 50%),
+    radial-gradient(circle, #5da010 20%, transparent 50%);
+  background-position: 0 0, 50% 0;
+  background-repeat: repeat-x;
+  opacity: 0.8;
+  filter: blur(8px);
+  animation: waveFlow 3s linear infinite;
+  pointer-events: none;
+  z-index: 5;
 }
-
+@keyframes waveFlow {
+  0% {
+    transform: translateX(0) scaleY(0.8);
+  }
+  50% {
+    transform: translateX(50%) scaleY(1.2);
+  }
+  100% {
+    transform: translateX(100%) scaleY(0.8);
+    }
+}
+.gallery-item.active {
+  border: 2px solid #ffcc00; 
+  transform: scale(1.05); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  transition: all 0.3s ease;
+}
 .gallery-card:hover::before {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.1) 100%);
 }
+
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
@@ -679,10 +706,28 @@ transition: opacity 0.5s ease;
     transform: translateY(0);
   }
 }
+.prev-btn,
+.next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 30px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+}
 
+.prev-btn {
+    left: 10px;
+}
 
-
-
+.next-btn {
+    right: 10px;
+}
 
 /* Modal styles */
 .modal {

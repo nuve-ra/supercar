@@ -2,9 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>My first three.js app</title>
+    <title>Wheel</title>
 
-    <!-- UNPKG Importmap for Three.js -->
     <script type="importmap">
       {
         "imports": {
@@ -45,10 +44,8 @@
       }
 
       .customize-btn:hover {
-        background-color: #1a237e;
+        background-color: #565c9e;
       }
-
-      /* Control Panel Styles */
       .control-panel {
         position: fixed;
         top: 80px;
@@ -129,9 +126,6 @@
       import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
       import { OrbitControls } from 'three/addons/controls/OrbitControls';
 
-      // OrbitControls removed completely
-
-      // Renderer
       const renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setClearColor(0x000000);
@@ -140,8 +134,6 @@
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type=THREE.PCFSoftShadowMap;
       document.body.appendChild(renderer.domElement);
-
-      // Scene and Camera
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(
         75,
@@ -164,8 +156,6 @@
       controls.target = new THREE.Vector3(0,1,0);
       controls.update();
 
-
-      // Ground
       const groundGeometry = new THREE.PlaneGeometry(20, 20, 32, 32);
       groundGeometry.rotateX(-Math.PI / 2);
       const groundMaterial = new THREE.MeshStandardMaterial({
@@ -177,7 +167,7 @@
       groundMesh.receiveShadow = true;
       scene.add(groundMesh);
 
-      // Lights
+      // Light
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
       scene.add(ambientLight);
 
@@ -199,12 +189,9 @@
       targetObject.position.set(0, 0, 0);
       scene.add(targetObject);
       spotLight.target = targetObject;
-
-      // Global variable to store wheel mesh and material
       let wheelMesh;
       let wheelMaterial;
 
-      // Load Wheel Model
       const loader = new GLTFLoader();
       loader.load('models/wheel_model.glb', (gltf) => {
         wheelMesh = gltf.scene;
@@ -213,10 +200,10 @@
           if(child.isMesh){
             child.castShadow = true;
             child.receiveShadow = true;
-            // Store reference to the material
+            
             if (!wheelMaterial && child.material) {
               wheelMaterial = child.material;
-              // Ensure it's a MeshStandardMaterial
+        
               if (!(wheelMaterial instanceof THREE.MeshStandardMaterial)) {
                 wheelMaterial = new THREE.MeshStandardMaterial({
                   color: wheelMaterial.color || 0x333333,
@@ -234,17 +221,11 @@
         wheelMesh.scale.set(5, 5, 5);
         scene.add(wheelMesh);
         console.log('Wheel model loaded:', wheelMesh);
-
-        // Initialize material properties from sliders
         updateWheelMaterial();
       }, undefined, (error) => {
         console.error('Error loading wheel model:', error);
-        // Create a simple wheel as fallback
         createFallbackWheel();
       });
-
-
-      // Fallback wheel creation if model fails to load
       function createFallbackWheel() {
         const geometry = new THREE.TorusGeometry(1, 0.3, 16, 32);
         wheelMaterial = new THREE.MeshStandardMaterial({
@@ -259,47 +240,33 @@
         scene.add(wheelMesh);
         console.log('Fallback wheel created');
       }
-
-
-      // Update wheel material based on control values
       function updateWheelMaterial() {
         if (!wheelMaterial) return;
         
         wheelMaterial.color.setStyle(colorPicker.value);
         wheelMaterial.metalness = parseFloat(metallicSlider.value);
         wheelMaterial.roughness = parseFloat(roughnessSlider.value);
-        // Sharpness can be used to modify other material properties if needed
-        // For now, we'll just log it
         console.log('Sharpness:', sharpnessSlider.value);
       }
-
-      // Handle Window Resize
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
       });
-
-      // Wheel Customization Controls
       const wheelControls = document.getElementById('wheelControls');
       const colorPicker = document.getElementById('wheelColor');
       const metallicSlider = document.getElementById('metallic');
       const roughnessSlider = document.getElementById('roughness');
       const sharpnessSlider = document.getElementById('sharpness');
-
-      // Toggle controls panel
       document.getElementById('customizeWheel').addEventListener('click', () => {
         wheelControls.style.display = wheelControls.style.display === 'block' ? 'none' : 'block';
       });
 
-      // Update control value displays
       function updateValueDisplay(sliderId, displayId) {
         const slider = document.getElementById(sliderId);
         const display = document.getElementById(displayId);
         display.textContent = slider.value;
       }
-
-      // Event listeners for sliders
       metallicSlider.addEventListener('input', () => {
         updateValueDisplay('metallic', 'metallicValue');
         if (wheelMaterial) {
@@ -316,9 +283,7 @@
 
       sharpnessSlider.addEventListener('input', () => {
         updateValueDisplay('sharpness', 'sharpnessValue');
-        // Sharpness can be used to modify other material properties
         if (wheelMaterial) {
-          // Example: adjust normal scale based on sharpness
           const sharpness = parseFloat(sharpnessSlider.value);
           if (wheelMaterial.normalScale) {
             wheelMaterial.normalScale.set(sharpness, sharpness);
@@ -332,7 +297,6 @@
         }
       });
 
-      // Initialize display values
       updateValueDisplay('metallic', 'metallicValue');
       updateValueDisplay('roughness', 'roughnessValue');
       updateValueDisplay('sharpness', 'sharpnessValue');

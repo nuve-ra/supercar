@@ -119,7 +119,16 @@
         <div class="video-item">
           <iframe src="https://www.youtube.com/embed/LbD8leFCB-I" title="Ferrari 488 GTB Track Performance" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           <h3>Ferrari 488 GTB Track Performance</h3>
-          <p>Watch the Ferrari 488 GTB showcase its incredible performance on the track.</p>
+          <p>Watch the Ferrari 488 GTB showcase its incredible performance on the track.
+            Engine: 3.9L twin-turbo V8 engine, 661 hp and 561 lb-ft torque
+
+              Acceleration: 0-60 mph in 3.0 seconds
+
+              Top Speed: 205 mph (330 km/h)
+
+              Weight: 1,470 kg (3,239 lbs) with lightweight materials
+
+          </p>
         </div>
 
         <!-- Video 2 -->
@@ -133,7 +142,6 @@
   </main>
 
   <script>
-    // Initialize video when the page loads
     window.addEventListener('load', () => {
       const video = document.getElementById('backgroundVideo');
       if (video) {
@@ -143,7 +151,6 @@
       }
     });
 
-    // Handle visibility changes
     document.addEventListener('visibilitychange', () => {
       const video = document.getElementById('backgroundVideo');
       if (video) {

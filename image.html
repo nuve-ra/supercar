@@ -22,6 +22,7 @@
             <h2>Iconic Supercars</h2>
             <div class="gallery-container">
                 <div class="gallery-grid">
+                    <!-- <div class="gallery-item active">  -->
                     <div class="gallery-item">
                         <div class="gallery-card">
                             <img src="assests/black.jpeg" alt="Ferrari 488 GTB">
@@ -81,12 +82,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+               </div>
         </article>
     </main>
 
     <script>
-        // Add staggered animations for gallery items
+        
         const galleryItems = document.querySelectorAll('.gallery-item');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry, index) => {
@@ -104,7 +105,6 @@
             observer.observe(item);
         });
 
-        // Add hover effect to gallery cards
         const galleryCards = document.querySelectorAll('.gallery-card');
         galleryCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -116,14 +116,13 @@
             });
         });
 
-        // Add click handler to open modal
         galleryCards.forEach(card => {
             card.addEventListener('click', () => {
                 const imgSrc = card.querySelector('img').src;
                 const title = card.querySelector('h3').textContent;
                 const description = card.querySelector('p').textContent;
 
-                // Create modal content
+                
                 const modalContent = `
                     <div class="modal-content">
                         <span class="close-modal">&times;</span>
@@ -134,24 +133,17 @@
                         </div>
                     </div>
                 `;
-
-                // Create and show modal
                 const modal = document.createElement('div');
                 modal.className = 'modal';
                 modal.innerHTML = modalContent;
                 document.body.appendChild(modal);
 
-                // Add animation class
                 modal.classList.add('show');
-
-                // Close modal when clicking the X
                 const closeBtn = modal.querySelector('.close-modal');
                 closeBtn.addEventListener('click', () => {
                     modal.classList.remove('show');
                     setTimeout(() => modal.remove(), 300);
                 });
-
-                // Close modal when clicking outside
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                         modal.classList.remove('show');
@@ -159,7 +151,6 @@
                     }
                 });
 
-                // Add close button to all modals
                 const closeButton = modal.querySelector('.close-modal');
                 if (!closeButton) {
                     const newCloseButton = document.createElement('span');
@@ -174,8 +165,6 @@
                 }
             });
         });
-
-        // Add float animation to cards
         function floatAnimation() {
             galleryCards.forEach((card, index) => {
                 setTimeout(() => {
@@ -184,12 +173,23 @@
             });
         }
 
-        // Start float animation after page load
         window.addEventListener('load', floatAnimation);
+
+        document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+        // Remove active class from all gallery items
+        document.querySelectorAll('.gallery-item').forEach(i => i.classList.remove('active'));
+        
+        // Add active class to the clicked item
+        item.classList.add('active');
+    });
+});
+
+
     </script>
 
     <style>
-      
+
         .gallery-container {
             position: relative;
             width: 80%;
@@ -242,12 +242,6 @@
     .gallery-card:hover {
         transform: scale(1.05);
         }
-        
-
-
-
-
-
   </style>
 </body>
 </html>
