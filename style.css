@@ -584,6 +584,26 @@ transition: opacity 0.5s ease;
   opacity: 0.7;
   transform: scale(1.1);
 }
+.gallery-scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-track {
+  display: flex;
+  animation: scrollGallery 10s linear infinite;
+}
+
+.gallery-grid {
+  display: flex;
+  gap: 20px;
+}
+
+.gallery-item {
+  flex: 0 0 auto;
+  width: 240px; /* or your card width */
+}
 
 .gallery-content {
   position: absolute;

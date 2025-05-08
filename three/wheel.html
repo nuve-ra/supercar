@@ -157,6 +157,7 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setClearColor(0x000000);
       renderer.setPixelRatio(window.devicePixelRatio);
+      
 
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type=THREE.PCFSoftShadowMap;
@@ -242,7 +243,7 @@
             }
           }
         });
-
+       
 
         wheelMesh.position.set(0, 2, 0);
         wheelMesh.scale.set(5, 5, 5);
