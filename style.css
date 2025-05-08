@@ -162,7 +162,7 @@ header::before {
     rgba(255, 255, 255, 0.1) 100%
   );
   transform: skewX(-25deg);
-  opacity: 0; /* Hide by default */
+  opacity: 0; 
 }
 
 /* Trigger shine on hover */
@@ -203,7 +203,7 @@ nav a {
 /* Individual button styles */
 nav a[href="#"] {
   background: none;
-  padding: 0.6em 1.2em;
+  padding: 1.0em 1.6em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -220,7 +220,7 @@ nav a[href="#"] {
 
 nav a[href="image.html"] {
   background: none;
-  padding: 0.6em 1.2em;
+  padding: 1.0em 1.6em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -238,7 +238,7 @@ nav a[href="image.html"] {
 nav a[href="video.html"] {
 
   background: none;
-  padding: 0.6em 1.2em;
+  padding: 1.0em 1.6em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -256,7 +256,7 @@ nav a[href="video.html"] {
 nav a[href="gif.html"] {
 
   background: none;
-  padding: 0.6em 1.2em;
+  padding: 1.0em 1.6em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -274,7 +274,7 @@ nav a[href="gif.html"] {
 nav a[href="pdf.html"] {
 
   background: none;
-  padding: 0.6em 1.2em;
+  padding: 1.0em 1.6em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -291,7 +291,7 @@ nav a[href="pdf.html"] {
 
 nav a[href="three/carConf.html"] {
   background: none;
-  padding: 0.6em 1.2em;
+  padding: 1.0em 1.6em;
   border: 1px solid #fff;
   font-size: 12px;
   color: #131313;
@@ -391,8 +391,8 @@ h2 {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border: 2px solid #928888;  /* Adding border to make it a box */
+  box-shadow: 0px 4px 8px rgba(18, 19, 18, 0.1);
+  border: 3px solid #ebd516;  /* Adding border to make it a box */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -525,8 +525,9 @@ transition: opacity 0.5s ease;
 /* Gallery styles */
 
 .gallery-container {
-  padding: 40px 20px;
-  max-width: 1200px;
+  /* padding: 40px 20px; */
+  /* max-width: 1200px; */
+  width:500px;
   margin: 0 auto;
   overflow: hidden;
   background-color: #fff;
@@ -537,8 +538,9 @@ transition: opacity 0.5s ease;
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Only 2 columns */
-  gap: 40px;
+  gap: 20px;
   padding: 20px;
+  width:500px;
   position: relative;
 }
 .gallery-item {
@@ -747,7 +749,7 @@ transition: opacity 0.5s ease;
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: #cababa;
   border-radius: 20px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
@@ -759,8 +761,8 @@ transition: opacity 0.5s ease;
 
 .modal-content {
   position: relative;
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
